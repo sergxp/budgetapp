@@ -2,14 +2,37 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-    provider = "sqlite"
-    url      = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
 }
 
-model Example {
-    id String @id @default(cuid())
+model BudgetDay {
+  id                    String                  @id @unique @db.Char(16)
+  day                   DateTime
+  runningTotal          Decimal
+  user                  User                    @relation(fields: [userId], references: [id])
+  userId                Int
+  recurringTransactions RecurringTransactions[]
+}
+
+model User {
+  id         Int         @unique @default(autoincrement())
+  firstName  String
+  lastName   String
+  email      String
+  BudgetDays BudgetDay[]
+}
+
+model RecurringTransactions {
+  id          String     @id @unique @db.Char(16)
+  amount      Decimal
+  name        String
+  BudgetDay   BudgetDay? @relation(fields: [budgetDayId], references: [id])
+  budgetDayId String?    @db.Char(16)
 }

@@ -1,11 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { TableRow } from "../components/TableRow";
-import { BudgetDayDetail } from "../models/BudgetDayDetail";
+import { BudgetMonth } from "../domain/BudgetMonth";
 import { getBudgetDaysData } from "../utils/budgetDataUtils";
+import '../utils/dateExtensions.ts'
 
 const Home: NextPage = () => {
-  const budgetDays: BudgetDayDetail[] = getBudgetDaysData();
+  const budgetMonth: BudgetMonth = new BudgetMonth(getBudgetDaysData(), 3212);
 
   return (
     <>
@@ -25,13 +26,13 @@ const Home: NextPage = () => {
             <ColumnHeader name="Recurring Transactions" />
           </div>
           <div>
-            {budgetDays.map((day) => (
+            {budgetMonth.days.map((day) => (
               <TableRow
-                key={day.date.toDateString()}
+                key={day.date.toShortDateString()}
                 date={day.date}
-                recurringTransactions={day.recurringTransactions}
-                runningTotal={day.runningTotal}
-                transactions={day.transactions}
+                recurringTransactions={day.transactions.getTransactionNames()}
+                runningTotal={day.runningTotal.amount}
+                transactions={day.transactions.total}
               ></TableRow>
             ))}
           </div>
