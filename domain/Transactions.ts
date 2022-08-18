@@ -1,6 +1,6 @@
 import { RecurringTransaction } from "./RecurringTransaction";
 
-export class TransactionContainer {
+export class Transactions {
   public total: number;
 
   constructor(public recurringTransactions: RecurringTransaction[] = []) {
@@ -8,7 +8,10 @@ export class TransactionContainer {
   }
 
   public calculateTransactions() {
-    this.total = this.recurringTransactions.reduce((acc, t) => acc + t.amount, 0);
+    this.total = this.recurringTransactions.reduce(
+      (acc, t) => acc + t.amount,
+      0
+    );
   }
 
   public getTransactionNames() {

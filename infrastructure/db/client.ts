@@ -1,6 +1,6 @@
 // src/server/db/client.ts
 import { PrismaClient } from "@prisma/client";
-import { env } from "../../env/server.mjs";
+import { env } from "../../src/env/client.mjs";
 
 declare global {
   var prisma: PrismaClient | undefined;

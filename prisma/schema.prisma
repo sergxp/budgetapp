@@ -7,22 +7,22 @@ generator client {
 }
 
 datasource db {
-  provider             = "mysql"
+  provider             = "postgres"
   url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
+  referentialIntegrity = "foreignKeys"
 }
 
 model BudgetDay {
-  id                    String                  @id @unique @db.Char(16)
+  id                    String                  @id @unique @default(uuid())
   day                   DateTime
-  runningTotal          Decimal
+  runningTotal          Decimal?
   user                  User                    @relation(fields: [userId], references: [id])
   userId                Int
   recurringTransactions RecurringTransactions[]
 }
 
 model User {
-  id         Int         @unique @default(autoincrement())
+  id         Int         @id @unique @default(autoincrement())
   firstName  String
   lastName   String
   email      String
@@ -34,5 +34,5 @@ model RecurringTransactions {
   amount      Decimal
   name        String
   BudgetDay   BudgetDay? @relation(fields: [budgetDayId], references: [id])
-  budgetDayId String?    @db.Char(16)
+  budgetDayId String?
 }
