@@ -13,7 +13,7 @@ datasource db {
 }
 
 model BudgetDay {
-  id                    String                  @id @unique @default(uuid())
+  id                    String                  @id @unique @default(uuid()) @db.Uuid
   day                   DateTime
   runningTotal          Decimal?
   user                  User                    @relation(fields: [userId], references: [id])
@@ -30,9 +30,9 @@ model User {
 }
 
 model RecurringTransactions {
-  id          String     @id @unique @db.Char(16)
-  amount      Decimal
+  id          String     @id @unique @default(uuid()) @db.Uuid
+  amount      Decimal    @db.Money
   name        String
   BudgetDay   BudgetDay? @relation(fields: [budgetDayId], references: [id])
-  budgetDayId String?
+  budgetDayId String?    @db.Uuid
 }

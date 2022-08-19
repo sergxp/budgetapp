@@ -25,7 +25,7 @@ const load = async () => {
 };
 
 const loadDb = async (req: NextApiRequest, res: NextApiResponse) => {
-  //await load();
+  // await load();
   res.status(200).json("done");
 };
 

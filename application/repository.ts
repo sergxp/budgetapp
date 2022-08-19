@@ -12,8 +12,10 @@ export class Repository {
           lte: moment(firstOfMonth).endOf("month").toDate(),
         },
       },
+      include: {
+        recurringTransactions: true,
+      },
     });
-    const test = result[0];
     return result;
   }
 }

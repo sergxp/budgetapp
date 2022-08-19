@@ -2,6 +2,16 @@
 # yarn lockfile v1
 
 
+"@automapper/classes@^8.7.5":
+  version "8.7.5"
+  resolved "https://registry.yarnpkg.com/@automapper/classes/-/classes-8.7.5.tgz#3bd17aa32d3c19a8c4ab48adc9771e8036091ac9"
+  integrity sha512-nsdDQfoZEodMq7xdD7ss++Ph+mX0CVA9KkDqHCJW+ypKLgwAlwUhqaaQhBf5vAdpBsMRRjcm3XAuYCBbCu9EPA==
+
+"@automapper/core@^8.7.5":
+  version "8.7.5"
+  resolved "https://registry.yarnpkg.com/@automapper/core/-/core-8.7.5.tgz#39b56dfc43b0432c29066988406f019e9eb785fa"
+  integrity sha512-tLIZYC0SYbTAg3TQUR4KZFs6Fgf3dO/LOeM8TXF+wpHJDMi78gewgCrr8XVKNGwblJky22THxtL/rdVJlZf1cg==
+
 "@babel/runtime-corejs3@^7.10.2":
   version "7.18.9"
   resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.18.9.tgz#7bacecd1cb2dd694eacd32a91fcf7021c20770ae"
@@ -1816,6 +1826,11 @@ readdirp@~3.6.0:
   integrity sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==
   dependencies:
     picomatch "^2.2.1"
+
+reflect-metadata@^0.1.13:
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.13.tgz#67ae3ca57c972a2aa1642b10fe363fe32d49dc08"
+  integrity sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==
 
 regenerator-runtime@^0.13.4:
   version "0.13.9"
