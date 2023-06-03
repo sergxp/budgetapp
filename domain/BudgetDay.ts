@@ -21,14 +21,4 @@ export class BudgetDay {
     this.runningTotal = $runningTotal ?? new RunningTotal();
     this.userId = $userId;
   }
-
-  static fromDto(json: any) {
-    return new BudgetDay(
-      json.id,
-      new Date(json.day),
-      json.userId,
-      new Transactions(json.recurringTransactions),
-      new RunningTotal(json.runningTotal)
-    );
-  }
 }

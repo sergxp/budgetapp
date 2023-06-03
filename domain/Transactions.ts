@@ -15,6 +15,6 @@ export class Transactions {
   }
 
   public getTransactionNames() {
-    return this.recurringTransactions.map((x) => x.transactionName);
+    return this.recurringTransactions.map((x) => x.name);
   }
 }

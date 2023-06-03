@@ -1,32 +1,34 @@
-import { BudgetDay } from "../../domain/BudgetDay";
-import { RunningTotal } from "../../domain/RunningTotal";
-import { Transactions } from "../../domain/Transactions";
+import { JsonObject, JsonProperty } from "typescript-json-serializer";
 
+@JsonObject()
 export class BudgetDayDto {
+  @JsonProperty()
   id: string;
+
+  @JsonProperty()
   day: Date;
+
+  @JsonProperty()
   runningTotal: number;
-  recurringTransactions: RecurringTransactions[];
+
+  @JsonProperty()
+  recurringTransactions: RecurringTransactionDto[];
+
+  @JsonProperty()
   userId: number;
-  //   toDomainModel(): BudgetDay {
-  //     return new BudgetDay(
-  //       this.day,
-  //       new Transactions(this.recurringTransactions),
-  //       new RunningTotal(this.runningTotal)
-  //     );
-  //   }
-  constructor(json: any) {
-    this.id = json.id;
-    this.day = json.day;
-    this.runningTotal = json.runningTotal;
-    this.recurringTransactions = json.recurringTransactions;
-    this.userId = json.userId;
-  }
 }
 
-interface RecurringTransactions {
+@JsonObject()
+export class RecurringTransactionDto {
+  @JsonProperty()
   id: string;
+
+  @JsonProperty()
   amount: number;
+
+  @JsonProperty()
   name: string;
+
+  @JsonProperty()
   budgetDayId: string | null;
 }

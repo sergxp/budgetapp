@@ -1,15 +1,9 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { TableRow } from "../components/TableRow";
-import { MonthlyBudget } from "../../domain/MonthlyBudget";
 import { useMonthlyBudget } from "../hooks/useMonthlyBudget";
-import { getBudgetDaysData } from "../utils/budgetDataUtils";
 
 const Home: NextPage = () => {
-  const budgetMonth: MonthlyBudget = new MonthlyBudget(
-    getBudgetDaysData(),
-    3212
-  );
   const { monthlyBudget } = useMonthlyBudget(8);
 
   return (
@@ -25,18 +19,19 @@ const Home: NextPage = () => {
           <div className="rounded-t-lg flex w-full bg-blue-200 p-2">
             <ColumnHeader name="Date" />
             <ColumnHeader name="Running Total" />
+            <ColumnHeader name="Total Transactions" />
             <ColumnHeader name="Transactions" />
-            <ColumnHeader name="Recurring Transactions" />
           </div>
           <div>
             {monthlyBudget &&
               monthlyBudget.days.map((day) => (
                 <TableRow
-                  key={day.day.toDateString()}
+                  key={day.id}
+                  id={day.id}
                   day={day.day}
-                  recurringTransactions={day.transactions.getTransactionNames()}
+                  recurringTransactions={day.transactions.recurringTransactions}
                   runningTotal={day.runningTotal.amount}
-                  transactions={day.transactions.total}
+                  totalTransactions={day.transactions.total}
                 ></TableRow>
               ))}
           </div>

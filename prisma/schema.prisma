@@ -22,11 +22,13 @@ model BudgetDay {
 }
 
 model User {
-  id         Int         @id @unique @default(autoincrement())
-  firstName  String
-  lastName   String
-  email      String
-  BudgetDays BudgetDay[]
+  id                    Int                     @id @unique @default(autoincrement())
+  firstName             String
+  lastName              String
+  email                 String
+  BudgetDays            BudgetDay[]
+  runningTotals         RunningTotalEntry[]
+  recurringTransactions RecurringTransactions[]
 }
 
 model RecurringTransactions {
@@ -35,4 +37,15 @@ model RecurringTransactions {
   name        String
   BudgetDay   BudgetDay? @relation(fields: [budgetDayId], references: [id])
   budgetDayId String?    @db.Uuid
+  userId      Int
+  user        User       @relation(fields: [userId], references: [id])
+}
+
+model RunningTotalEntry {
+  id          String   @id @unique @default(uuid()) @db.Uuid
+  amount      Decimal  @db.Money
+  isBeginning Boolean
+  date        DateTime
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
 }
