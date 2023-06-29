@@ -7,27 +7,26 @@ import "../utils/numberExtensions";
 import { TransactionsModal } from "./TransactionsModal";
 
 export const TableRow: React.FC<{
-  id: string;
   day: Date;
   runningTotal: number;
-  totalTransactions: number;
-  recurringTransactions: RecurringTransaction[];
+  totalTransactions?: number;
+  recurringTransactions?: RecurringTransaction[];
 }> = (props) => {
-  const buildRecurringTransactions = props.recurringTransactions.map((x) => (
+  const buildRecurringTransactions = props.recurringTransactions?.map((x) => (
     <span>{x.name},</span>
   ));
 
   const [openTransactions, setOpenTranactions] = useState(false);
 
   return (
-    <div key={props.id} className="flex odd:bg-blue-50 even:bg-white px-2 py-1">
+    <div className="flex odd:bg-blue-50 even:bg-white px-2 py-1">
       <div className="px-2 flex flex-1">{moment(props.day).format("l")}</div>
       <div className="px-2 flex flex-1">{props.runningTotal.toCurrency()}</div>
       <div className="px-2 flex flex-1">
-        {props.totalTransactions.toCurrency()}
+        {props.totalTransactions?.toCurrency()}
       </div>
       <div className="px-2 flex flex-1">
-        {props.recurringTransactions.length > 0
+        {props.recurringTransactions && props.recurringTransactions.length > 0
           ? buildRecurringTransactions
           : ""}
 
