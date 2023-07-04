@@ -4,13 +4,13 @@ import { TableRow } from "../components/TableRow";
 import { useMonthlyBudget } from "../hooks/useMonthlyBudget";
 import { Calendar, Month } from "../../domain/Calendar";
 import { Pagination } from "../components/Pagination";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react";
+import { useGetBudget } from "../hooks/useGetBudget";
+import { useBudget } from "../hooks/useBudget";
 
 const Home: NextPage = observer(() => {
-  const { monthlyBudget } = useMonthlyBudget(8);
-
-  const [calendar] = useState<Calendar>(new Calendar());
+  const { budget } = useBudget();
 
   return (
     <>
@@ -29,22 +29,24 @@ const Home: NextPage = observer(() => {
             <ColumnHeader name="Transactions" />
           </div>
           <div>
-            {calendar &&
-              calendar.month.days.map((day) => (
-                <TableRow
-                  key={day.date.getDate()}
-                  day={day.date}
-                  recurringTransactions={undefined}
-                  runningTotal={0}
-                  totalTransactions={undefined}
-                ></TableRow>
-              ))}
+            {budget &&
+              budget
+                .getCurrentMonthBudget()
+                .map((budgetDay) => (
+                  <TableRow
+                    key={budgetDay.date.getDate()}
+                    day={budgetDay.date}
+                    recurringTransactions={undefined}
+                    runningTotal={budgetDay.runningTotal}
+                    totalTransactions={undefined}
+                  ></TableRow>
+                ))}
           </div>
         </div>
         <Pagination
-          current={() => calendar.currentMonth()}
-          next={() => calendar.nextMonth()}
-          previous={() => calendar.previousMonth()}
+          current={() => budget.calendar.currentMonth()}
+          next={() => budget.calendar.nextMonth()}
+          previous={() => budget.calendar.previousMonth()}
         />
       </main>
     </>

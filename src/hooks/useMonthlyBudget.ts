@@ -8,7 +8,7 @@ import { BudgetDay } from "../../domain/BudgetDay";
 import { MonthlyBudget } from "../../domain/MonthlyBudget";
 
 export const useMonthlyBudget = (month: number) => {
-  const { isLoading, data } = useQuery(["budget"], () => {
+  const { isLoading, data } = useQuery(["budgetMonth"], () => {
     return axios
       .get<BudgetDayDto[]>(
         `${process.env.NEXT_PUBLIC_API_BASE}/budget/month/${month}`

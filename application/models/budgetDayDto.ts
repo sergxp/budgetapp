@@ -1,34 +1,28 @@
-import { JsonObject, JsonProperty } from "typescript-json-serializer";
+import { AutoMap } from "@automapper/classes";
 
-@JsonObject()
 export class BudgetDayDto {
-  @JsonProperty()
+  @AutoMap()
   id: string;
 
-  @JsonProperty()
-  day: Date;
+  @AutoMap()
+  date: Date;
 
-  @JsonProperty()
+  @AutoMap()
   runningTotal: number;
 
-  @JsonProperty()
-  recurringTransactions: RecurringTransactionDto[];
+  @AutoMap()
+  recurringTransactions?: RecurringTransactionDto[];
 
-  @JsonProperty()
+  @AutoMap()
   userId: number;
 }
 
-@JsonObject()
 export class RecurringTransactionDto {
-  @JsonProperty()
   id: string;
 
-  @JsonProperty()
   amount: number;
 
-  @JsonProperty()
   name: string;
 
-  @JsonProperty()
   budgetDayId: string | null;
 }

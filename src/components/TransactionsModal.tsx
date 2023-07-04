@@ -28,6 +28,37 @@ export const TransactionsModal: React.FC<{
     setOpen(props.isOpen);
   }, [props.isOpen]);
 
+  const deleteTransaction = (index: number): void => {
+    return setTransactions([
+      ...transactions.slice(0, index),
+      ...transactions.slice(index + 1),
+    ]);
+  };
+
+  const updateTransactionAmount = (
+    index: number,
+    transaction: RecurringTransaction,
+    value: string
+  ): void => {
+    return setTransactions([
+      ...transactions.slice(0, index),
+      { ...transaction, amount: +value },
+      ...transactions.slice(index + 1),
+    ]);
+  };
+
+  const updateTransactionName = (
+    index: number,
+    transaction: RecurringTransaction,
+    value: string
+  ): void => {
+    return setTransactions([
+      ...transactions.slice(0, index),
+      { ...transaction, name: value },
+      ...transactions.slice(index + 1),
+    ]);
+  };
+
   return (
     <Modal
       onClose={() => setOpen(false)}
@@ -37,8 +68,13 @@ export const TransactionsModal: React.FC<{
       className="transaction-modal"
     >
       <Modal.Header>
-        Transactions
-        <p className="text-base font-normal">{props.date}</p>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          Transactions
+          <p className="text-base font-normal">{props.date}</p>
+          <Box sx={{ "&:hover": { cursor: "pointer" } }}>
+            <Icon name="close" onClick={() => setOpen(false)} />
+          </Box>
+        </Box>
       </Modal.Header>
 
       <Box>
@@ -64,7 +100,7 @@ export const TransactionsModal: React.FC<{
             <Box sx={{ flex: 1 }}>
               <EditableInput
                 value={transaction.name}
-                setValue={(value) =>
+                updateValue={(value) =>
                   updateTransactionName(index, transaction, value)
                 }
                 sx={{ padding: 1 }}
@@ -74,7 +110,7 @@ export const TransactionsModal: React.FC<{
               <span style={{ padding: 8, paddingTop: 10 }}>$</span>
               <EditableInput
                 value={transaction.amount.toString()}
-                setValue={(value) =>
+                updateValue={(value) =>
                   updateTransactionAmount(index, transaction, value)
                 }
                 sx={{
@@ -99,49 +135,6 @@ export const TransactionsModal: React.FC<{
           </Box>
         ))}
       </Box>
-      <Modal.Actions>
-        <Button color="black" onClick={() => setOpen(false)}>
-          Nope
-        </Button>
-        <Button
-          content="Yep, that's me"
-          labelPosition="right"
-          icon="checkmark"
-          onClick={() => setOpen(false)}
-          positive
-        />
-      </Modal.Actions>
     </Modal>
   );
-
-  function deleteTransaction(index: number) {
-    return setTransactions([
-      ...transactions.slice(0, index),
-      ...transactions.slice(index + 1),
-    ]);
-  }
-
-  function updateTransactionAmount(
-    index: number,
-    transaction: RecurringTransaction,
-    value: string
-  ): void {
-    return setTransactions([
-      ...transactions.slice(0, index),
-      { ...transaction, amount: +value },
-      ...transactions.slice(index + 1),
-    ]);
-  }
-
-  function updateTransactionName(
-    index: number,
-    transaction: RecurringTransaction,
-    value: string
-  ): void {
-    return setTransactions([
-      ...transactions.slice(0, index),
-      { ...transaction, name: value },
-      ...transactions.slice(index + 1),
-    ]);
-  }
 };

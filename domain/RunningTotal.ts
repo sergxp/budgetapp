@@ -1,18 +1,37 @@
 import { BudgetDay } from "./BudgetDay";
 
 export class RunningTotal {
-  public userDefined: boolean = false;
-  public amount: number = 0;
-  constructor($amount?: number) {
+  private _isAdjusted: boolean = false;
+  private _amount: number = 0;
+  constructor($amount?: number, $isAdjusted?: boolean) {
     if ($amount) {
-      this.userDefined = true;
-      this.amount = $amount;
+      this._amount = $amount;
+    }
+    if ($isAdjusted) {
+      this._isAdjusted = $isAdjusted;
     }
   }
 
   public calculateRunningTotal(budgetDay: BudgetDay, prevRunningTotal: number) {
-    if (this.userDefined) return;
+    if (this._isAdjusted) return;
 
-    this.amount = prevRunningTotal + budgetDay.transactions.total;
+    this._amount = prevRunningTotal + (budgetDay.transactions?.total ?? 0);
+  }
+
+  public adjustRunningTotal(amount: number) {
+    this._amount += amount;
+    this._isAdjusted = true;
+  }
+
+  public get isAdjusted(): boolean {
+    return this._isAdjusted;
+  }
+
+  public setIsAdjusted(isAdjusted: boolean) {
+    this._isAdjusted = isAdjusted;
+  }
+
+  public get amount(): number {
+    return this._amount;
   }
 }

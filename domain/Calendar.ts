@@ -1,15 +1,19 @@
 import { action, makeObservable, observable } from "mobx";
 
 export class Calendar {
-  @observable month: Month | null = null;
+  @observable private _month: Month | null = null;
 
   constructor(_month?: Month) {
     makeObservable(this);
     if (_month) {
-      this.month = _month;
+      this._month = _month;
     } else {
-      this.month = new Month(new Date().getMonth(), new Date().getFullYear());
+      this._month = new Month(new Date().getMonth(), new Date().getFullYear());
     }
+  }
+
+  get month(): Month | null {
+    return this._month;
   }
 
   @action
@@ -24,9 +28,10 @@ export class Calendar {
       newMonth = 11;
       newYear--;
     }
-    this.month = new Month(newMonth, newYear);
+    this._month = new Month(newMonth, newYear);
   }
 
+  @action
   nextMonth() {
     if (this.month === null) throw new Error("Month is undefined");
 
@@ -38,13 +43,13 @@ export class Calendar {
       newMonth = 0;
       newYear++;
     }
-    this.month = new Month(newMonth, newYear);
+    this._month = new Month(newMonth, newYear);
   }
 
   @action
   currentMonth() {
     try {
-      this.month = new Month(new Date().getMonth(), new Date().getFullYear());
+      this._month = new Month(new Date().getMonth(), new Date().getFullYear());
     } catch (e) {
       throw new Error("Error getting current month");
     }
@@ -60,10 +65,26 @@ export class Day {
 }
 
 export class Month {
-  days: Day[] = [];
+  private _days: Day[] = [];
+  private _number: number;
+  private _year: number;
 
   constructor(month: number, year: number) {
-    this.days = this.getDaysInMonth(month, year);
+    this._days = this.getDaysInMonth(month, year);
+    this._number = month;
+    this._year = year;
+  }
+
+  get days(): Day[] {
+    return this._days;
+  }
+
+  get number(): number {
+    return this._number;
+  }
+
+  get year(): number {
+    return this._year;
   }
 
   getDaysInMonth(month: number, year: number) {

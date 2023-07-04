@@ -1,23 +1,37 @@
+import { set } from "@automapper/core";
 import { Box, SxProps } from "@mui/system";
-import { ChangeEventHandler, InputHTMLAttributes, useState } from "react";
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  InputHTMLAttributes,
+  useEffect,
+  useState,
+} from "react";
 
 export const EditableInput: React.FC<{
   value: string;
-  setValue: (value: string) => void;
+  updateValue: (value: string) => void;
   sx?: SxProps;
 }> = (props) => {
   const [editing, setEditing] = useState(false);
   const [hovering, setHovering] = useState(false);
 
-  const handleChange = (e: InputHTMLAttributes<HTMLInputElement>) => {
-    props.setValue(e.value as string);
+  const [value, setValue] = useState(props.value);
+
+  useEffect(() => {
+    setValue(props.value);
+  }, [props.value]);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value as string);
   };
 
   const handleFocus = () => {
     setEditing(true);
   };
 
-  const handleBlur = () => {
+  const handleBlur = (e: InputHTMLAttributes<HTMLInputElement>) => {
+    props.updateValue(value);
     setEditing(false);
   };
 
@@ -38,18 +52,20 @@ export const EditableInput: React.FC<{
       {editing ? (
         <input
           type="text"
-          value={props.value}
+          value={value}
           onChange={handleChange}
           onBlur={handleBlur}
+          style={{ width: "100%" }}
         />
       ) : (
         <div
           onClick={handleFocus}
           style={{
             border: hovering ? "1px solid blue" : "none",
+            width: "100%",
           }}
         >
-          {props.value}
+          {value}
         </div>
       )}
     </Box>
